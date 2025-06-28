@@ -29,7 +29,7 @@ services:
 
   #services
   chat-app:
-    image: kndev2004/mxh:chat-app-main-934c72f6a35fb929f30bd7c524c2ae9c8e8f406f
+    image: kndev2004/mxh:chat-app-main-2bf43c9affad19bdea94850b7c72c8ba48bf114b
     restart: always
     container_name: chat-app
     depends_on:
