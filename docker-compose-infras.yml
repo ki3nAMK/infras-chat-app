@@ -1,0 +1,50 @@
+networks:
+  global-network: null
+
+services:
+
+  # infrastructure
+  database:
+    image: mysql:8.0
+    container_name: database
+    ports:
+      - "3307:3306"
+    volumes:
+      - ./data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: chat_db
+      MYSQL_USER: huy
+      MYSQL_PASSWORD: password
+    networks:
+      - global-network
+    deploy:
+      resources:
+        limits:
+          cpus: "0.50"
+          memory: "1024M"
+        reservations:
+          cpus: "0.25"
+          memory: "512M"
+
+  #services
+  chat-app:
+    image: kndev2004/mxh:chat-app-main-36c9aa45922c04a1d89c3134cdd0906bec0cec31
+    restart: always
+    container_name: chat-app
+    depends_on:
+      - database
+    ports:
+      - "8080:8080"
+    networks:
+      - global-network
+    volumes:
+      - /root/be-chat-app/logs:/app/logs
+    deploy:
+      resources:
+        limits:
+          cpus: "0.50"
+          memory: "1024M"
+        reservations:
+          cpus: "0.25"
+          memory: "512M"
